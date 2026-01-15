@@ -9,6 +9,7 @@ const App: React.FC = () => {
   const [effects, setEffects] = useState<EffectItem[]>([]);
   const [shakeIntensity, setShakeIntensity] = useState(0);
   const [showSpeedLines, setShowSpeedLines] = useState(false);
+  const [hitCount, setHitCount] = useState(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Clear effects that have finished animating
@@ -40,6 +41,7 @@ const App: React.FC = () => {
       reader.onload = (e) => {
         setImageSrc(e.target?.result as string);
         setEffects([]); // Clear old effects
+        setHitCount(0); // Reset hits
       };
       reader.readAsDataURL(file);
     }
@@ -49,6 +51,7 @@ const App: React.FC = () => {
     // 1. Add Screen Shake
     setShakeIntensity(20); // Reset shake to high
     setShowSpeedLines(true);
+    setHitCount(prev => prev + 1);
 
     // 2. Add Visual FX Text
     const sfx = SFX_TEXTS[Math.floor(Math.random() * SFX_TEXTS.length)];
@@ -107,6 +110,16 @@ const App: React.FC = () => {
         >
           {imageSrc ? (
             <div className="relative border-4 border-black shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] bg-white">
+              {/* Hit Counter Badge - Moved to Bottom Right to avoid Title */}
+              {hitCount > 0 && (
+                <div className="absolute -bottom-10 -right-8 z-50 transform -rotate-6 animate-bounce pointer-events-none">
+                  <div className="bg-red-600 text-yellow-300 font-black text-6xl px-4 py-2 border-4 border-black shadow-[6px_6px_0px_#000] min-w-[120px] text-center">
+                    {hitCount}
+                    <span className="text-2xl text-white block -mt-2 leading-none">HITS!</span>
+                  </div>
+                </div>
+              )}
+
               <CanvasStage 
                 imageSrc={imageSrc} 
                 onAttack={handleAttack}
@@ -157,7 +170,10 @@ const App: React.FC = () => {
             <MangaButton 
               label="Reset" 
               variant="danger"
-              onClick={() => setImageSrc(prev => prev ? prev + '?' + Date.now() : null)} 
+              onClick={() => {
+                setImageSrc(prev => prev ? prev + '?' + Date.now() : null);
+                setHitCount(0);
+              }} 
             />
           </div>
         )}

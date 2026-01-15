@@ -66,10 +66,9 @@ export const CanvasStage: React.FC<CanvasStageProps> = ({ imageSrc, onAttack, sh
 
     // --- APPLY DEFORMATION ---
     // Intensity > 0 pushes out (bloat), Intensity < 0 pulls in (pinch/dent)
-    // We want a "Dent" effect for a punch.
-    const punchRadius = 60 + Math.random() * 40; 
-    const punchIntensity = 0.6; // Positive = Spherize/Bulge. Negative = Pinch. 
-    // Actually for a "punch", sometimes bulging looks more "swollen". Let's do bulge.
+    // Adjusted values for much smaller, localized damage (Accumulative fun!)
+    const punchRadius = 15 + Math.random() * 20; // Smaller radius (was 30+25)
+    const punchIntensity = 0.15; // Much gentler intensity (was 0.35)
     
     const newImageData = applyPunch(currentImageData, x, y, punchRadius, punchIntensity);
     
