@@ -73,7 +73,7 @@ const App: React.FC = () => {
     const canvas = document.querySelector('canvas');
     if (canvas) {
       const link = document.createElement('a');
-      link.download = 'manga-punch-result.png';
+      link.download = 'qusi-result.png';
       link.href = canvas.toDataURL();
       link.click();
     }
@@ -95,11 +95,6 @@ const App: React.FC = () => {
         <h1 className="text-[12rem] leading-[0.7] font-black tracking-tighter text-black transform -rotate-3 mix-blend-multiply drop-shadow-[5px_5px_0px_#fff]">
           QUSI
         </h1>
-        <div className="transform rotate-2 -mt-2 relative">
-           <span className="text-2xl font-black bg-black text-white px-6 py-2 border-4 border-white inline-block shadow-lg">
-             「你去死」Manga Maker
-           </span>
-        </div>
       </header>
 
       {/* Main Stage - Negative margin to allow title overlap */}
